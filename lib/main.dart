@@ -41,13 +41,13 @@ class _CalcState extends State<Calc> {
         Container(
           height: MediaQuery.of(context).size.height * 0.05,
         ),
-        historyWidget(0.06, _history3, 30.0),
-        historyWidget(0.11, _history2, 35.0),
-        historyWidget(0.13, _history1, 45.0),
-        historyWidget(0.14, _expression, 55.0),
+        historyWidget(0.08, _history3),
+        historyWidget(0.10, _history2),
+        historyWidget(0.12, _history1),
+        historyWidget(0.14, _expression),
         Container(
           color: Colors.blueGrey,
-          height: MediaQuery.of(context).size.height * 0.001,
+          height: MediaQuery.of(context).size.height * 0.002,
           width: MediaQuery.of(context).size.width * 0.90,
         ),
         Container(
@@ -101,15 +101,15 @@ class _CalcState extends State<Calc> {
     ));
   }
 
-  Widget historyWidget(historyHeight, text, textSize) {
+  Widget historyWidget(historyHeight, text) {
     return GestureDetector(
       child: Container(
-        alignment: Alignment.bottomRight,
         height: MediaQuery.of(context).size.height * historyHeight,
-        width: MediaQuery.of(context).size.width * 0.90,
+        width: MediaQuery.of(context).size.width,
         child: FittedBox(
-          fit: BoxFit.cover,
-          child: Text(text, style: GoogleFonts.lato(textStyle: TextStyle(fontSize: textSize))),
+          alignment: Alignment.bottomRight,
+          fit: BoxFit.contain,
+          child: Text(text, style: GoogleFonts.lato()),
         ),
       ),
       onTap: () {
@@ -151,7 +151,7 @@ class _CalcState extends State<Calc> {
           _expression = "0";
         }
       } else if (buttonText == "⌫") {
-        if (_expression.length > 0) {
+        if (_expression.length > 1) {
           _expression = _expression.substring(0, _expression.length - 1);
         } else {
           _expression = "0";
@@ -174,6 +174,7 @@ class _CalcState extends State<Calc> {
           _history3 = _history2;
           _history2 = _history1;
           _history1 = _expression;
+          _expression = "0";
         } catch (e) {
           print("EXP ERROR");
         }
