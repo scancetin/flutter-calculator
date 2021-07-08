@@ -36,107 +36,116 @@ class _CalcState extends State<Calc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.05,
-        ),
-        historyWidget(0.08, _history3),
-        historyWidget(0.10, _history2),
-        historyWidget(0.12, _history1),
-        historyWidget(0.14, _expression),
-        Container(
-          color: Colors.blueGrey,
-          height: MediaQuery.of(context).size.height * 0.002,
-          width: MediaQuery.of(context).size.width * 0.90,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  calcButton("C", Colors.orange),
-                  calcButton("⌫", Colors.orange),
-                  calcButton("%", Colors.orange),
-                  calcButton("÷", Colors.orange),
-                ],
-              ),
-              Row(
-                children: [
-                  calcButton("7", Colors.white),
-                  calcButton("8", Colors.white),
-                  calcButton("9", Colors.white),
-                  calcButton("×", Colors.orange),
-                ],
-              ),
-              Row(
-                children: [
-                  calcButton("4", Colors.white),
-                  calcButton("5", Colors.white),
-                  calcButton("6", Colors.white),
-                  calcButton("-", Colors.orange),
-                ],
-              ),
-              Row(
-                children: [
-                  calcButton("1", Colors.white),
-                  calcButton("2", Colors.white),
-                  calcButton("3", Colors.white),
-                  calcButton("+", Colors.orange),
-                ],
-              ),
-              Row(
-                children: [
-                  calcButton("000", Colors.white),
-                  calcButton("0", Colors.white),
-                  calcButton(".", Colors.white),
-                  calcButton("=", Colors.yellow),
-                ],
-              ),
-            ],
+      body: Column(
+        children: [
+          Spacer(),
+          historyWidget(4, _history3),
+          historyWidget(5, _history2),
+          historyWidget(6, _history1),
+          historyWidget(7, _expression),
+          Container(
+            color: Colors.blueGrey,
+            height: 2,
+            width: MediaQuery.of(context).size.width * 0.90,
           ),
-        ),
-      ],
-    ));
+          Expanded(
+            flex: 25,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      calcButton("C", Colors.orange),
+                      calcButton("⌫", Colors.orange),
+                      calcButton("%", Colors.orange),
+                      calcButton("÷", Colors.orange),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      calcButton("7", Colors.white),
+                      calcButton("8", Colors.white),
+                      calcButton("9", Colors.white),
+                      calcButton("×", Colors.orange),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      calcButton("4", Colors.white),
+                      calcButton("5", Colors.white),
+                      calcButton("6", Colors.white),
+                      calcButton("-", Colors.orange),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      calcButton("1", Colors.white),
+                      calcButton("2", Colors.white),
+                      calcButton("3", Colors.white),
+                      calcButton("+", Colors.orange),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      calcButton("000", Colors.white),
+                      calcButton("0", Colors.white),
+                      calcButton(".", Colors.white),
+                      calcButton("=", Colors.yellow),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget historyWidget(historyHeight, text) {
-    return GestureDetector(
-      child: Container(
-        height: MediaQuery.of(context).size.height * historyHeight,
-        width: MediaQuery.of(context).size.width,
-        child: FittedBox(
-          alignment: Alignment.bottomRight,
-          fit: BoxFit.contain,
-          child: Text(text, style: GoogleFonts.lato()),
+  Widget historyWidget(historyFlex, text) {
+    return Expanded(
+      flex: historyFlex,
+      child: GestureDetector(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.90,
+          child: FittedBox(
+            alignment: Alignment.bottomRight,
+            fit: BoxFit.contain,
+            child: Text(text, style: GoogleFonts.lato()),
+          ),
         ),
+        onTap: () {
+          setState(() {
+            _expression = text;
+          });
+        },
       ),
-      onTap: () {
-        setState(() {
-          _expression = text;
-        });
-      },
     );
   }
 
   Widget calcButton(buttonText, buttonColor) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height * 0.10,
-        width: MediaQuery.of(context).size.width * 0.25,
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         child: Text(
           buttonText,
+          textAlign: TextAlign.center,
           style: GoogleFonts.lato(
             textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: buttonColor),
           ),
         ),
+        onTap: () {
+          buttonPressed(buttonText);
+        },
       ),
-      onTap: () {
-        buttonPressed(buttonText);
-      },
     );
   }
 
